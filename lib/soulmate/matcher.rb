@@ -12,7 +12,7 @@ module Soulmate
       return [] if words.empty?
 
       cachekey = "#{cachebase}:" + words.join('|')
-
+      puts cachekey
       if !options[:cache] || !Soulmate.redis.exists(cachekey)
         interkeys = words.map { |w| "#{base}:#{w}" }
         Soulmate.redis.zinterstore(cachekey, interkeys)
