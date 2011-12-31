@@ -20,7 +20,7 @@ module Soulmate
       end
       puts cachekey
       
-      ids = Soulmate.redis.zrevrange(cachekey, 0, options[:limit] - 1)
+      ids = Soulmate.redis.zrevrangebyscore(cachekey, 0, options[:limit] - 1)
       if ids.size > 0
         puts ids
         results = Soulmate.redis.hmget(database, *ids)
