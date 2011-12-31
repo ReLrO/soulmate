@@ -15,12 +15,12 @@ module Soulmate
       puts cachekey
       if !options[:cache] || !Soulmate.redis.exists(cachekey)
         interkeys = words.map { |w| "#{base}:#{w}" }
-        Soulmate.redis.zinterstore(cachekey, interkeys)
+        Soulmate.redis.zunionstore(cachekey, interkeys)
         Soulmate.redis.expire(cachekey, 10 * 60) # expire after 10 minutes
       end
       puts cachekey
       
-      ids = Soulmate.redis.zrevrangebyscore(cachekey, 0, options[:limit] - 1)
+      ids = Soulmate.redis.zrevrange(cachekey, 0, options[:limit] - 1)
       if ids.size > 0
         puts ids
         results = Soulmate.redis.hmget(database, *ids)
