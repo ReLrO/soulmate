@@ -10,7 +10,9 @@ module Soulmate
     end
 
     def normalize(str)
-      str.downcase.gsub(/[^a-z0-9 ]/i, '').strip
+      unless str.nil?
+        str.downcase.gsub(/[^a-z0-9 ]/i, '').strip
+      end
     end
     
     private
